@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Scentora — Shop Perfumes</title>
+    <style>
+      :root {
+        --accent: #d4a373;
+        --dark: #111827;
+        --muted: #7a7a7a;
+        --bg: #fffaf7;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial;
+        margin: 0;
+        background: var(--bg);
+        color: var(--dark);
+        -webkit-font-smoothing: antialiased;
+        height: 100%;
+      }
+
+      /* header */
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 34px;
+        background: #fff;
+        box-shadow: 0 6px 18px rgba(11, 12, 13, 0.06);
+        position: sticky;
+        top: 0;
+        z-index: 80;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .brand img {
+        height: 42px;
+        width: 42px;
+        object-fit: cover;
+        border-radius: 6px;
+      }
+      .brand .title {
+        font-weight: 700;
+        font-size: 18px;
+        letter-spacing: 0.3px;
+      }
+      /* .nav {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+      .dropdown {
+        position: relative;
+      }
+      .dropbtn {
+        background: transparent;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .dropmenu {
+        position: absolute;
+        top: 36px;
+        left: 0;
+        background: #fff;
+        padding: 8px;
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(10, 10, 10, 0.08);
+        display: none;
+      }
+      .dropmenu a {
+        display: block;
+        padding: 8px 12px;
+        color: #222;
+        text-decoration: none;
+        border-radius: 6px;
+      }
+      .dropmenu a:hover {
+        background: #f5f5f5;
+      }
+      .dropdown:hover .dropmenu {
+        display: block;
+      } */
+
+      .search {
+        display: flex;
+        align-items: center;
+        background: #f2f2f2;
+        padding: 6px 10px;
+        border-radius: 24px;
+        gap: 8px;
+      }
+      .search input {
+        border: 0;
+        background: transparent;
+        outline: none;
+        width: 200px;
+        font-size: 14px;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .btn {
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: 0;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .btn.primary {
+        background: var(--dark);
+        color: #fff;
+      }
+      .cart {
+        position: relative;
+        font-size: 18px;
+        cursor: pointer;
+      }
+      .cart .count {
+        position: absolute;
+        top: -8px;
+        right: -10px;
+        background: var(--accent);
+        color: #fff;
+        padding: 3px 7px;
+        border-radius: 999px;
+        font-size: 12px;
+      }
+
+      /* hero */
+      .hero {
+        padding: 48px 34px 18px;
+        background: linear-gradient(
+          180deg,
+          rgba(82, 147, 196, 0.06),
+          transparent
+        );
+        display: flex;
+        align-items: center;
+        gap: 28px;
+      }
+      .hero-left {
+        flex: 1;
+      }
+      .hero h1 {
+        font-size: 32px;
+        margin-bottom: 10px;
+      }
+      .hero p {
+        color: var(--muted);
+        margin-bottom: 12px;
+      }
+      .shop-btn {
+        background: var(--accent);
+        border: 0;
+        color: #fff;
+        padding: 10px 18px;
+        border-radius: 10px;
+        font-weight: 700;
+      }
+
+      /* products grid */
+      .products {
+        padding: 28px 34px 60px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .products h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 20px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+      }
+
+      .card {
+        background: #fff;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        position: relative;
+        transition: transform 0.25s, box-shadow 0.25s;
+      }
+      .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.09);
+      }
+      .card .media {
+        height: 280px;
+        background: #f7f7f7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .card .media img {
+        max-width: 92%;
+        max-height: 92%;
+        object-fit: contain;
+      }
+      .card .body {
+        padding: 14px 16px;
+      }
+      .card h3 {
+        font-size: 16px;
+        margin-bottom: 6px;
+      }
+      .card p.brand {
+        color: var(--muted);
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .price-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .price {
+        font-weight: 800;
+        color: var(--dark);
+        font-size: 16px;
+      }
+      .naira {
+        color: var(--accent);
+        font-weight: 900;
+      }
+
+      /* action */
+      .actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-top: 12px;
+      }
+      .add-btn {
+        background: var(--dark);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 10px;
+        border: 0;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .add-btn:active {
+        transform: translateY(1px);
+      }
+      .small-like {
+        background: #fff;
+        border: 1px solid #eee;
+        padding: 8px;
+        border-radius: 10px;
+      }
+
+      /* hover overlay with description */
+      .overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.55),
+          rgba(0, 0, 0, 0.55)
+        );
+        color: #fff;
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.18s, visibility 0.18s;
+      }
+      .card:hover .overlay {
+        opacity: 1;
+        visibility: visible;
+      }
+      .overlay h4 {
+        margin-bottom: 8px;
+      }
+      .overlay p {
+        font-size: 13px;
+        line-height: 1.3;
+        margin-bottom: 8px;
+        color: rgba(255, 255, 255, 0.9);
+      }
+      .overlay .ings {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.85);
+        margin-bottom: 12px;
+      }
+      .overlay .overlay-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .overlay .price-big {
+        font-weight: 900;
+        font-size: 18px;
+        color: var(--accent);
+      }
+
+      /* footer */
+      .footer {
+        background-color: #000;
+        color: #ccc;
+        padding: 60px 80px 20px;
+      }
+
+      .footer-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 40px;
+        border-bottom: 1px solid #222;
+        padding-bottom: 40px;
+      }
+
+      .footer-column h3 {
+        color: #f0e6d2;
+        font-size: 14px;
+        letter-spacing: 1px;
+        margin-bottom: 15px;
+      }
+
+      .footer-column p {
+        line-height: 1.6;
+        font-size: 13px;
+      }
+
+      .footer-column ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .footer-column ul li {
+        margin-bottom: 8px;
+      }
+
+      .footer-column ul li a {
+        color: #ccc;
+        text-decoration: none;
+        font-size: 13px;
+        transition: color 0.3s;
+      }
+
+      .footer-column ul li a:hover {
+        color: #d4a373;
+      }
+
+      /* Newsletter */
+      .newsletter {
+        display: flex;
+        background: #1a1a1a;
+        border-radius: 6px;
+        overflow: hidden;
+        margin: 15px 0;
+      }
+
+      .newsletter input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        color: #fff;
+        padding: 10px;
+        outline: none;
+        font-size: 13px;
+      }
+
+      .newsletter button {
+        background: #444;
+        color: #fff;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+      }
+
+      /* Socials */
+      .social-icons {
+        display: flex;
+        gap: 12px;
+        font-size: 18px;
+        margin-top: 10px;
+      }
+
+      .social-icons i:hover {
+        color: #d4a373;
+      }
+
+      /* Instagram grid */
+      .insta-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+
+      .insta-grid img {
+        width: 100%;
+        border-radius: 6px;
+        transition: transform 0.3s;
+      }
+
+      .insta-grid img:hover {
+        transform: scale(1.05);
+      }
+
+      /* Bottom footer */
+      .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 20px;
+        border-top: 1px solid #222;
+        font-size: 13px;
+      }
+
+      .store-links img {
+        width: 120px;
+        margin-left: 10px;
+      }
+
+      .payment-section {
+        text-align: center;
+        border-top: 1px solid #222;
+        padding-top: 25px;
+        margin-top: 20px;
+      }
+
+      .payment-section p {
+        font-size: 13px;
+        color: #aaa;
+        margin: 10px 0;
+      }
+
+      .partners {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .partners img {
+        height: 25px;
+        opacity: 0.8;
+        transition: opacity 0.3s;
+      }
+
+      .partners img:hover {
+        opacity: 1;
+      }
+
+      /* small modal toast */
+      .toast {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        background: #0b0;
+        padding: 10px 16px;
+        color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 0.18s, transform 0.18s;
+        z-index: 999;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      @media (max-width: 600px) {
+        .search input {
+          width: 100px;
+        }
+        .hero {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .card .media {
+          height: 200px;
+        }
+      }
+      .fola {
+        margin-bottom: 2000px;
+      }
+
+
+
+      .nav {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .dropdown {
+    position: relative;
+  }
+
+  .dropbtn {
+    background: transparent;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background 0.3s;
+  }
+
+  .dropbtn:hover {
+    background: #f2f2f2;
+  }
+
+  .dropmenu {
+    display: none;
+    position: absolute;
+    top: 40px;
+    left: 0;
+    background: #fff;
+    min-width: 180px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    z-index: 100;
+  }
+
+  .dropmenu a {
+    display: block;
+    padding: 12px 16px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.3s;
+  }
+
+  .dropmenu a:hover {
+    background: #f9f9f9;
+    color: var(--accent);
+  }
+
+  /* Show on hover */
+  .dropdown:hover .dropmenu {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Optional: improve for mobile */
+  @media (max-width: 768px) {
+    .dropmenu {
+      position: static;
+      box-shadow: none;
+      transform: none;
+      opacity: 1;
+      display: block;
+    }
+  }
+    </style>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="topbar">
+      <div class="brand">
+        <img
+          src="Picture1.png"
+          alt="Balmain Paris logo with bold stylized B inside a black circle, text Balmain Paris below, modern and elegant branding on a light background"
+        />
+        <div class="title"></div>
+      </div>
+
+      <nav class="nav">
+  <div class="dropdown">
+    <button class="dropbtn">Products</button>
+    <div class="dropmenu">
+      <a href="perfume.html">Hair Products</a>
+      <a href="about.html">customers</a>
+      <a href="users.html">users</a>
+    </div>
+  </div>
+  
+
+
+        <div class="search">
+          <input id="searchInput" placeholder="Search brand or product..." />
+          <button id="searchBtn" title="Search">Search</button>
+        </div>
+      </nav>
+
+      <div class="header-actions">
+        <button class="btn" onclick="window.location.href='signup.html'">
+          Signin
+        </button>
+          <button class="btn" onclick="window.location.href='signup.html'">
+          Signout
+        </button>
+        <div class="cart" onclick="window.location.href='cart.html'">
+          🛒 <span class="count" id="cartCount">0</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-left">
+        <h1>Find your signature hair formular</h1>
+        <p>
+          Handpicked luxury hair products. Authentic products — delivered to your
+          door step.
+        </p>
+        <button
+          class="shop-btn"
+          onclick="document.getElementById('productGrid').scrollIntoView({behavior:'smooth'})"
+        >
+          Shop Collection
+        </button>
+      </div>
+      <div class="hero-right">
+        <!-- simple visual - replacement optional -->
+        
+        <img
+          src="Picture4.jpg"
+          alt=""
+          style="
+            height: 140px;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+          "
+        />
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="products container" id="productSection">
+      <h2 class="fola">Our Collection</h2>
+      <div class="grid" id="productGrid">
+        <!-- JavaScript will render product cards here -->
+      </div>
+    </section>
+
+    <!-- toast -->
+    <div id="toast" class="toast" aria-hidden="true">Added to cart</div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-column about">
+          <h3>ABOUT US</h3>
+          <p>
+            sarissignature is  owned by Ajaj Services Ltd is an online hair
+            shop in Nigeria designed to awaken your senses with our large
+            collection of authentic extraordinary hair product, fragrances, scents,
+            , best online hair deals and gift sets.
+          </p>
+
+          <h3>SUBSCRIBE TO OUR NEWSLETTER</h3>
+          <div class="newsletter">
+            <input type="email" placeholder="Enter your email address" />
+            <button title="Subscribe"><i class="fa fa-arrow-right"></i></button>
+          </div>
+
+          <h3>CONNECT</h3>
+          <div class="social-icons">
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-whatsapp"></i>
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-tiktok"></i>
+            <i class="fa-brands fa-x-twitter"></i>
+          </div>
+        </div>
+
+        <div class="footer-column">
+          <h3>MY PROFILE</h3>
+          <ul>
+            <li><a href="#">My Account</a></li>
+            <li><a href="#">Order History</a></li>
+            <li><a href="#">My Cart</a></li>
+            <li><a href="#">Advanced Search</a></li>
+            <li><a href="#">Checkout</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>INFORMATION</h3>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="#">Delivery Information</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="user.html">happy customers</a></li>
+            <li><a href="#">Return Policy</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column instagram">
+          <h3>INSTAGRAM</h3>
+          <div class="insta-grid">
+            <img src="assets/images/p1.jpg" alt="" />
+            <img src="assets/images/p2.jpg" alt="" />
+            <img src="assets/images/p3.jpg" alt="" />
+            <img src="assets/images/p4.jpg" alt="" />
+            <img src="assets/images/p5.jpg" alt="" />
+            <img src="assets/images/p6.jpg" alt="" />
+            <img src="assets/images/p7.jpg" alt="" />
+            <img src="assets/images/p8.jpg" alt="" />
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2025 sarissignature.com.ng. All Rights Reserved.</p>
+        <div class="store-links">
+          <!-- <img src="assets/images/googleplay.png" alt="Google Play" />
+          <img src="assets/images/appstore.png" alt="App Store" />
+        </div> -->
+      </div>
+
+      <div class="payment-section">
+        <p>Payment Partners</p>
+        <div class="partners">
+          <img src="assets/images/interswitch.png" alt="" />
+          <img src="assets/images/verve.png" alt="" />
+          <img src="assets/images/mastercard.png" alt="" />
+          <img src="assets/images/visa.png" alt="" />
+          <img src="assets/images/paypal.png" alt="" />
+        </div>
+        <p>Delivery Partners</p>
+        <div class="partners">
+          <img src="assets/images/dhl.png" alt="" />
+          <img src="assets/images/ups.png" alt="" />
+          <img src="assets/images/tranex.png" alt="" />
+          <img src="assets/images/gig.png" alt="" />
+        </div>
+      </div>
+    </footer>
+    <script>
+      // Products list (8 products). Replace image src in assets/ with your images.
+     let products = [
+  {
+    id: "h1",
+    name: "Shea Moisture Curl Enhancing Smoothie",
+    brand: "Shea Moisture",
+    price: 8500,
+    img: "sheamoisture.png",
+    desc: "Defines curls, reduces frizz, and adds shine for thick curly hair.",
+    ingredients: "Shea Butter, Coconut Oil, Neem Oil, Silk Protein",
+  },
+  {
+    id: "h2",
+    name: "Cantu Leave-In Conditioning Repair Cream",
+    brand: "Cantu",
+    price: 7500,
+    img: "cantu.png",
+    desc: "Deeply moisturizes and repairs dry, damaged, or coarse hair.",
+    ingredients: "Shea Butter, Argan Oil, Jojoba Oil, Honey",
+  },
+  {
+    id: "h3",
+    name: "Mielle Rosemary Mint Scalp & Hair Strengthening Oil",
+    brand: "Mielle Organics",
+    price: 12000,
+    img: "mielle.png",
+    desc: "Stimulates hair growth and strengthens weak, brittle strands.",
+    ingredients: "Rosemary Oil, Castor Oil, Biotin, Peppermint Oil",
+  },
+  {
+    id: "h4",
+    name: "ORS Olive Oil Moisturizing Hair Lotion",
+    brand: "ors",
+    price: 6800,
+    img: "ors.png",
+    desc: "Hydrates and adds shine while protecting against heat damage.",
+    ingredients: "Olive Oil, Coconut Oil, Vitamin E, Aloe Vera",
+  },
+  {
+    id: "h5",
+    name: "Tresemme Keratin Smooth Shampoo",
+    brand: "tresemme",
+    price: 9500,
+    img: "tresemme.png",
+    desc: "Cleanses and smooths hair for a frizz-free, silky finish.",
+    ingredients: "Keratin, Argan Oil, Panthenol, Vitamin B5",
+  },
+  {
+    id: "h6",
+    name: "Aunt Jackie’s Quench Moisture Intensive Leave-In Conditioner",
+    brand: "Aunt Jackie’s",
+    price: 8200,
+    img: "Autjackie.png",
+    desc: "Softens, hydrates, and detangles dry, brittle natural hair.",
+    ingredients: "Shea Butter, Olive Oil, Marshmallow Root, Honey",
+  },
+  {
+    id: "h7",
+    name: "Motions Active Moisture Plus Conditioner",
+    brand: "Motions",
+    price: 7700,
+    img: "motion.png",
+    desc: "Restores elasticity and adds moisture for relaxed or natural hair.",
+    ingredients: "Coconut Oil, Silk Protein, Avocado Oil, Glycerin",
+  },
+  {
+    id: "h8",
+    name: "Creme of Nature Argan Oil Perfect Edges",
+    brand: "Creme of Nature",
+    price: 5000,
+    img: "creme.png",
+    desc: "Smooths edges and adds shine without flaking or residue.",
+    ingredients: "Argan Oil, Castor Oil, Beeswax, Aloe Extract",
+  },
+  {
+    id: "h9",
+    name: "Eco Styler Olive Oil Styling Gel",
+    brand: "Eco Styler",
+    price: 6000,
+    img: "eco.png",
+    desc: "Provides superior hold and conditioning for all hair types.",
+    ingredients: "Olive Oil, Glycerin, Wheat Protein, Water",
+  },
+  {
+    id: "h10",
+    name: "Head & Shoulders 2-in-1 Shampoo + Conditioner",
+    brand: "Head & Shoulders",
+    price: 8800,
+    img: "head.png",
+    desc: "Fights dandruff and cleanses hair while keeping it soft and fresh.",
+    ingredients: "Zinc Pyrithione, Menthol, Aloe Vera, Peppermint",
+  },
+  {
+    id: "h11",
+    name: "Pantene Pro-V Gold Series Hydrating Butter-Creme",
+    brand: "Pantene",
+    price: 10500,
+    img: "pantene.png",
+    desc: "Nourishes dry hair for soft, manageable curls and coils.",
+    ingredients: "Argan Oil, Pro-Vitamins, Coconut Oil, Glycerin",
+  },
+  {
+    id: "h12",
+    name: "Mizani 25 Miracle Milk Leave-In",
+    brand: "Mizani",
+    price: 13000,
+    img: "mizani.png",
+    desc: "Multi-benefit spray for hydration, detangling, and heat protection.",
+    ingredients: "Coconut Oil, Fennel Seed Extract, Vitamin E",
+  },
+  {
+    id: "h13",
+    name: "Carol’s Daughter Black Vanilla Moisture & Shine Shampoo",
+    brand: "Carol’s Daughter",
+    price: 9500,
+    img: "carols.png",
+    desc: "Hydrates and softens dull, brittle hair for a silky, shiny finish.",
+    ingredients: "Aloe Leaf Juice, Sweet Clover, Rose Extract, Shea Butter",
+  },
+  {
+    id: "h14",
+    name: "Dove Intensive Repair Conditioner",
+    brand: "Dove",
+    price: 7800,
+    img: "dove.png",
+    desc: "Repairs damaged hair fibers and restores smoothness.",
+    ingredients: "Keratin, Arginine, Almond Oil, Glycerin",
+  },
+  {
+    id: "h15",
+    name: "Garnier Fructis Sleek & Shine Serum",
+    brand: "Garnier",
+    price: 7200,
+    img: "eco.png",
+    desc: "Smooths frizz and adds lasting shine even in humid weather.",
+    ingredients: "Argan Oil, Apricot, Vitamin E, Citrus Proteins",
+  },
+  {
+    id: "h16",
+    name: "Dark and Lovely Moisture Plus Oil Moisturizer",
+    brand: "Dark and Lovely",
+    price: 6800,
+    img: "head.png",
+    desc: "Softens and nourishes hair, giving it a healthy, radiant glow.",
+    ingredients: "Shea Butter, Castor Oil, Olive Oil, Coconut Milk",
+  },
+  {
+    id: "h17",
+    name: "TGIN Butter Cream Daily Moisturizer",
+    brand: "TGIN",
+    price: 11000,
+    img: "image.png",
+    desc: "Rich daily cream for soft, manageable, and defined curls.",
+    ingredients: "Shea Butter, Vitamin E, Cocoa Butter, Jojoba Oil",
+  },
+  {
+    id: "h18",
+    name: "As I Am Coconut CoWash Cleansing Conditioner",
+    brand: "As I Am",
+    price: 9800,
+    img: "Autjackie.png",
+    desc: "Gently removes buildup while maintaining natural moisture balance.",
+    ingredients: "Coconut Oil, Tangerine, Castor Oil, Saw Palmetto",
+  },
+  {
+    id: "h19",
+    name: "Olaplex No.3 Hair Perfector",
+    brand: "Olaplex",
+    price: 15000,
+    img: "creme.png",
+    desc: "Repairs damaged bonds for stronger, healthier hair.",
+    ingredients: "Bis-Aminopropyl Diglycol Dimaleate, Water, Glycerin",
+  },
+  {
+    id: "h20",
+    name: "Camille Rose Almond Jai Twisting Butter",
+    brand: "Camille Rose",
+    price: 11500,
+    img: "camille.png",
+    desc: "Perfect for twist-outs and braids, providing softness and definition.",
+    ingredients: "Almond Milk, Honey, Shea Butter, Jojoba Oil",
+  },
+];
+
+
+      // localStorage cart key
+      const CART_KEY = "scentora_cart_v1";
+
+      // utility currency formatter (Naira)
+      let formatNaira = (amt) => "₦" + amt.toLocaleString();
+
+      // render grid
+      let grid = document.getElementById("productGrid");
+      let renderProducts = () => {
+        grid.innerHTML = "";
+        products.forEach((p) => {
+          let card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <div class="media"><img src="${p.img}" alt="${
+            p.name
+          }" onerror="this.style.opacity='.6'; this.alt='image missing'"></div>
+            <div class="body">
+              <h3>${p.name}</h3>
+              <p class="brand">${p.brand}</p>
+              <div class="price-row">
+                <div class="price"><span class="naira">${formatNaira(
+                  p.price
+                )}</span></div>
+                <div class="actions">
+                  <button class="add-btn" data-id="${p.id}">Add to cart</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="overlay" aria-hidden="true">
+              <h4>${p.name}</h4>
+              <p>${p.desc}</p>
+              <div class="ings"><strong>Ingredients:</strong> ${
+                p.ingredients
+              }</div>
+              <div class="overlay-actions">
+                <div class="price-big">${formatNaira(p.price)}</div>
+                <button class="add-btn" data-id="${p.id}">Add to cart</button>
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+
+        // attach add-to-cart listeners
+        document.querySelectorAll(".add-btn").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            let id = e.currentTarget.dataset.id;
+            addToCart(id);
+            e.stopPropagation();
+          });
+        });
+      };
+
+      // cart helpers
+      let readCart = () => {
+        try {
+          return JSON.parse(localStorage.getItem(CART_KEY)) || {};
+        } catch (e) {
+          return {};
+        }
+      };
+      let writeCart = (cart) =>
+        localStorage.setItem(CART_KEY, JSON.stringify(cart));
+
+      let addToCart = (id) => {
+        let cart = readCart();
+        if (!cart[id]) cart[id] = { qty: 0, addedAt: Date.now() };
+        cart[id].qty += 1;
+        writeCart(cart);
+        updateCartCount();
+        showToast("Added to cart");
+      };
+
+      let updateCartCount = () => {
+        let cart = readCart();
+        let count = Object.values(cart).reduce((s, i) => s + (i.qty || 0), 0);
+        document.getElementById("cartCount").textContent = count;
+      };
+
+      // toast
+      let toast = document.getElementById("toast");
+      let toastTimer;
+      let showToast = (msg) => {
+        toast.textContent = msg;
+        toast.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove("show"), 1600);
+      };
+
+      // search (basic)
+      document.getElementById("searchBtn").addEventListener("click", () => {
+        let q = document
+          .getElementById("searchInput")
+          .value.trim()
+          .toLowerCase();
+        if (!q) {
+          renderProducts();
+          return;
+        }
+        let filtered = products.filter((p) =>
+          (p.name + p.brand + p.desc + p.ingredients).toLowerCase().includes(q)
+        );
+        grid.innerHTML = "";
+        filtered.forEach((p) => {
+          // reuse small markup
+          let el = document.createElement("div");
+          el.className = "card";
+          el.innerHTML = `
+            <div class="media"><img src="${p.img}" alt="${
+            p.name
+          }" onerror="this.style.opacity='.6'; this.alt='image missing'"></div>
+            <div class="body">
+              <h3>${p.name}</h3>
+              <p class="brand">${p.brand}</p>
+              <div class="price-row"><div class="price">${formatNaira(
+                p.price
+              )}</div>
+                <div class="actions"><button class="add-btn" data-id="${
+                  p.id
+                }">Add to cart</button></div>
+              </div>
+            </div>
+            <div class="overlay" aria-hidden="true">
+              <h4>${p.name}</h4>
+              <p>${p.desc}</p>
+              <div class="ings"><strong>Ingredients:</strong> ${
+                p.ingredients
+              }</div>
+              <div class="overlay-actions">
+                <div class="price-big">${formatNaira(p.price)}</div>
+                <button class="add-btn" data-id="${p.id}">Add to cart</button>
+              </div>
+            </div>`;
+          grid.appendChild(el);
+        });
+        document.querySelectorAll(".add-btn").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            addToCart(e.currentTarget.dataset.id);
+            e.stopPropagation();
+          });
+        });
+      });
+
+      // init
+      renderProducts();
+      updateCartCount();
+    </script>
+  </body>
+</html>

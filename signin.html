@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sign In - Scentora</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: #f9fafb;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        height: 100%;
+      }
+
+      /* Header */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #fff;
+        padding: 15px 40px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+      header img {
+        height: 45px;
+      }
+      header .search-box {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      header input {
+        padding: 8px 12px;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        outline: none;
+      }
+      header button {
+        background: #111827;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      /* Background video */
+      .video-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+      }
+
+      /* Main container */
+      .container {
+        background: rgba(255, 255, 255, 0.92);
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        width: 360px;
+        text-align: center;
+        margin: 100px auto 80px; /* adds space from header and footer */
+      }
+
+      h2 {
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      input[type="text"],
+      input[type="password"],
+      input[type="email"] {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 8px;
+        background-color: #111827;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #d4a373;
+      }
+
+      p {
+        font-size: 14px;
+        color: #555;
+        margin-top: 14px;
+      }
+
+      a {
+        color: #d4a373;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      /* Footer */
+      footer {
+        background: #000;
+        color: #f5f5f5;
+        display: flex;
+        justify-content: space-around;
+        padding: 40px 20px;
+        flex-wrap: wrap;
+      }
+
+      footer div {
+        max-width: 220px;
+      }
+
+      footer h4 {
+        margin-bottom: 10px;
+        color: #f8f8f8;
+      }
+
+      footer p {
+        font-size: 13px;
+        line-height: 1.6;
+        color: #ccc;
+      }
+
+      footer a {
+        color: #ccc;
+        text-decoration: none;
+        font-size: 13px;
+        display: block;
+        margin: 4px 0;
+      }
+
+      footer a:hover {
+        color: #fff;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="logo">
+        <img src="Picture1.png" alt="Scentora Logo" />
+      </div>
+      <div class="search-box">
+        <input type="text" placeholder="Search brand or product..." />
+      </div>
+    </header>
+
+    <!-- Background video -->
+    <video autoplay muted loop class="video-bg">
+      <source src="video.mp4" type="video/mp4" />
+    </video>
+
+    <!-- Sign In Form -->
+    <div class="container">
+      <h2>Welcome Back</h2>
+      <form id="signinForm">
+        <input type="text" id="username" placeholder="Username" required />
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <button type="submit">Sign In</button>
+      </form>
+      <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+    </div>
+
+    <footer>
+      <div>
+        <h4>ABOUT US</h4>
+        <p>
+          Fragrances.com.ng owned by Prebel Services Ltd is an online perfume
+          shop in Nigeria designed to awaken your senses with our collection of
+          authentic perfumes and gift sets.
+        </p>
+      </div>
+      <div>
+        <h4>MY PROFILE</h4>
+        <a href="#">My Account</a>
+        <a href="#">Order History</a>
+        <a href="#">My Cart</a>
+        <a href="#">Checkout</a>
+      </div>
+      <div>
+        <h4>INFORMATION</h4>
+        <a href="#">About Us</a>
+        <a href="#">Delivery Information</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Contact Us</a>
+      </div>
+      <div>
+        <h4>INSTAGRAM</h4>
+        <p>Follow us @Scentora for latest updates.</p>
+      </div>
+    </footer>
+
+    <script>
+      document
+        .getElementById("signinForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const username = document.getElementById("username").value.trim();
+          const email = document.getElementById("email").value.trim();
+          const password = document.getElementById("password").value.trim();
+
+          const user = JSON.parse(localStorage.getItem("user"));
+
+          if (!user) {
+            alert("No user found. Please sign up first!");
+            window.location.href = "signup.html";
+            return;
+          }
+
+          if (
+            username === user.username &&
+            email === user.email &&
+            password === user.password
+          ) {
+            alert(`Welcome back, ${user.fullname}!`);
+            window.location.href = "perfume.html";
+          } else {
+            alert("Incorrect username, email, or password. Try again.");
+          }
+        });
+    </script>
+  </body>
+</html>

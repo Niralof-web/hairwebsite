@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us — Scentora</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --accent: #d4a373;
+        --dark: #111827;
+        --muted: #7a7a7a;
+        --bg: #fffaf7;
+      }
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI";
+        background: var(--bg);
+        color: var(--dark);
+      }
+
+      /* HEADER */
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 34px;
+        background: #fff;
+        box-shadow: 0 6px 18px rgba(11, 12, 13, 0.06);
+        position: sticky;
+        top: 0;
+        z-index: 80;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .brand img {
+        height: 42px;
+        width: 42px;
+        border-radius: 6px;
+      }
+      .brand .title {
+        font-weight: 700;
+        font-size: 18px;
+      }
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+      .dropbtn {
+        background: transparent;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .btn.primary {
+        background: var(--dark);
+        color: #fff;
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: 0;
+        cursor: pointer;
+        font-weight: 700;
+      }
+
+      /* ABOUT SECTION */
+      .about-section {
+        padding: 80px 34px;
+        max-width: 1200px;
+        margin: auto;
+        text-align: center;
+      }
+      .about-section h2 {
+        font-size: 30px;
+        margin-bottom: 16px;
+      }
+      .about-section p {
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.7;
+        margin-bottom: 50px;
+      }
+
+      /* SERVICES */
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 30px;
+        justify-content: center;
+      }
+      .service-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+        padding: 20px;
+        transition: transform 0.25s, box-shadow 0.25s;
+        cursor: pointer;
+      }
+      .service-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      }
+      .service-card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 12px;
+      }
+      .service-card h3 {
+        font-size: 18px;
+        color: var(--dark);
+        margin-bottom: 8px;
+      }
+      .service-card p {
+        font-size: 14px;
+        color: var(--muted);
+      }
+
+      /* FOOTER */
+      .footer {
+        background-color: #000;
+        color: #ccc;
+        padding: 60px 80px 20px;
+        margin-top: 80px;
+      }
+      .footer-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 40px;
+        border-bottom: 1px solid #222;
+        padding-bottom: 40px;
+      }
+      .footer-column h3 {
+        color: #f0e6d2;
+        font-size: 14px;
+        margin-bottom: 15px;
+      }
+      .footer-column p,
+      .footer-column a {
+        font-size: 13px;
+        color: #ccc;
+        text-decoration: none;
+        line-height: 1.6;
+      }
+      .footer-column a:hover {
+        color: var(--accent);
+      }
+      .footer-bottom {
+        border-top: 1px solid #222;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 20px;
+        font-size: 13px;
+      }
+
+      @media (max-width: 600px) {
+        .service-card img {
+          height: 200px;
+          object-position: center top;
+        }
+      }
+
+      .service-card img {
+        width: 100%;
+        height: 260px; /* Increased height for better framing */
+        object-fit: cover;
+        object-position: top center;
+        border-radius: 10px;
+        margin-bottom: 12px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- HEADER -->
+    <header class="topbar">
+      <div class="brand">
+        <img src="Picture1.png" alt="Logo" />
+        <div class="title">sarissignature Hair</div>
+      </div>
+
+      <nav class="nav">
+        <button class="dropbtn" onclick="window.location.href='perfume.html'">
+          Home
+        </button>
+        <button class="dropbtn" onclick="window.location.href='user.html'">
+          Customers
+        </button>
+        <button class="dropbtn" onclick="window.location.href='about.html'">
+          About
+        </button>
+        <button class="dropbtn" onclick="window.location.href='contact.html'">
+          Contact
+        </button>
+      </nav>
+
+      <button class="btn primary" onclick="window.location.href='login.html'">
+        Sign Out
+      </button>
+    </header>
+
+    <!-- ABOUT -->
+    <section class="about-section">
+      <h2>About Sarissignature Hair</h2>
+      <p>
+        At Sarissignature Hair, we are dedicated to redefining beauty through
+        innovation, authenticity, and premium service. Our passion for quality
+        hairstyling and customer satisfaction has built lasting relationships
+        with clients who trust us to make them look and feel their best.
+      </p>
+
+      <div class="services-grid">
+        <div class="service-card" onclick="window.location.href='user.html'">
+          <img src="Picture8.png" alt="Luxury Hair Service" />
+          <h3>Luxury Hair Styling</h3>
+          <p>
+            Premium hair care and styling services tailored to enhance your
+            confidence and elegance.
+          </p>
+        </div>
+
+        <div class="service-card" onclick="window.location.href='user.html'">
+          <img src="picture6.png" alt="Customer Consultation" />
+          <h3>Personalized Consultations</h3>
+          <p>
+            Our experts offer personalized consultations to match your perfect
+            look and care routine.
+          </p>
+        </div>
+
+        <div class="service-card" onclick="window.location.href='user.html'">
+          <img src="picture7.png" alt="Customer Experience" />
+          <h3>Customer Experience</h3>
+          <p>
+            Our satisfied clients inspire us to keep improving and delivering
+            top-notch service.
+          </p>
+        </div>
+
+        <div class="service-card" onclick="window.location.href='user.html'">
+          <img src="picture11.png" alt="Creative Styling" />
+          <h3>Creative Styling</h3>
+          <p>
+            Trendsetting hairstyles and innovative looks designed for every
+            occasion.
+          </p>
+        </div>
+
+        <div class="service-card" onclick="window.location.href='user.html'">
+          <img src="picture14.png" alt="Beauty Partnership" />
+          <h3>Beauty Partnerships</h3>
+          <p>
+            Collaborating with top beauty brands to bring you exclusive
+            treatments and premium experiences.
+          </p>
+        </div>
+
+        <div class="service-card" onclick="window.location.href='user.html'">
+          <img src="picture8.png" alt="Training Programs" />
+          <h3>Training & Empowerment</h3>
+          <p>
+            We empower young stylists through hands-on training and mentorship
+            opportunities.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-column">
+          <h3>ABOUT US</h3>
+          <p>
+            We are passionate about delivering quality hairstyles and
+            exceptional customer experiences.
+          </p>
+        </div>
+        <div class="footer-column">
+          <h3>CONTACT</h3>
+          <p>Email: sarissignature2012@gmail.com</p>
+          <p>Phone: +234-666-60002</p>
+        </div>
+        <div class="footer-column">
+          <h3>FOLLOW US</h3>
+          <p>
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-x-twitter"></i>
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 sarissignature. All Rights Reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

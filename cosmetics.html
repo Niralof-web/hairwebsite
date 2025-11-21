@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Scentora — Cart</title>
+    <style>
+      :root {
+        --accent: #d4a373;
+        --dark: #111827;
+        --bg: #fffaf7;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: var(--bg);
+        color: var(--dark);
+        min-height: 100vh;
+        display: block;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 34px;
+        background: #fff;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+        position: sticky;
+        top: 0;
+        z-index: 80;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .brand img {
+        height: 38px;
+        width: 38px;
+        border-radius: 6px;
+      }
+      .brand .title {
+        font-weight: 700;
+      }
+      .cart-wrap {
+        max-width: 1120px;
+        margin: 24px auto;
+        padding: 0 20px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 28px;
+      }
+      @media (max-width: 920px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .cart-list {
+        background: #fff;
+        padding: 18px;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+      }
+      .cart-item {
+        display: flex;
+        gap: 18px;
+        padding: 12px 10px;
+        border-bottom: 1px solid #f0f0f0;
+        align-items: center;
+      }
+      .cart-item:last-child {
+        border-bottom: 0;
+      }
+      .cart-item img {
+        width: 88px;
+        height: 88px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+      .item-info h4 {
+        margin: 0 0 6px;
+        font-size: 16px;
+      }
+      .item-info p {
+        margin: 0;
+        color: #777;
+        font-size: 13px;
+      }
+      .qty {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        margin-top: 8px;
+      }
+      .qty button {
+        padding: 6px 10px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        background: #fff;
+        cursor: pointer;
+      }
+      .remove {
+        background: transparent;
+        border: 0;
+        color: #c33;
+        cursor: pointer;
+        margin-left: 8px;
+      }
+      .summary {
+        background: #fff;
+        padding: 18px;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+      }
+      .summary h3 {
+        margin-top: 0;
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px dashed #eee;
+      }
+      .total {
+        font-weight: 900;
+        font-size: 18px;
+      }
+      .checkout-form {
+        margin-top: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .checkout-form input,
+      .checkout-form textarea {
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+      }
+      .btn-primary {
+        background: var(--dark);
+        color: #fff;
+        border: 0;
+        padding: 10px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .empty {
+        background: #fff;
+        padding: 28px;
+        border-radius: 12px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <img src="assets/logo.png" alt="logo" />
+        <div class="title">Scentora</div>
+      </div>
+      <div>
+        <button
+          onclick="location.href='perfume.html'"
+          style="
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 0;
+            background: #eee;
+            cursor: pointer;
+          "
+        >
+          ← Continue shopping
+        </button>
+      </div>
+    </header>
+
+    <div class="cart-wrap">
+      <div id="contentArea"></div>
+    </div>
+
+    <script>
+      const CART_KEY = "scentora_cart_v1";
+      // identical product array to index.html (keeps data consistent)
+      const products = {
+        p1: {
+          id: "p1",
+          name: "Chanel No.5",
+          brand: "Chanel",
+          price: 120000,
+          img: "assets/perfume1.jpg",
+        },
+        p2: {
+          id: "p2",
+          name: "Dior Sauvage",
+          brand: "Dior",
+          price: 150000,
+          img: "assets/perfume2.jpg",
+        },
+        p3: {
+          id: "p3",
+          name: "YSL Black Opium",
+          brand: "Yves Saint Laurent",
+          price: 130000,
+          img: "assets/perfume3.jpg",
+        },
+        p4: {
+          id: "p4",
+          name: "Tom Ford Oud Wood",
+          brand: "Tom Ford",
+          price: 180000,
+          img: "assets/perfume4.jpg",
+        },
+        p5: {
+          id: "p5",
+          name: "Versace Eros",
+          brand: "Versace",
+          price: 110000,
+          img: "assets/perfume5.jpg",
+        },
+        p6: {
+          id: "p6",
+          name: "Gucci Bloom",
+          brand: "Gucci",
+          price: 95000,
+          img: "assets/perfume6.jpg",
+        },
+        p7: {
+          id: "p7",
+          name: "Creed Aventus",
+          brand: "Creed",
+          price: 220000,
+          img: "assets/perfume7.jpg",
+        },
+        p8: {
+          id: "p8",
+          name: "Burberry Her",
+          brand: "Burberry",
+          price: 100000,
+          img: "assets/perfume8.jpg",
+        },
+        p9: {
+          id: "p9",
+          name: "Dior Sauvage",
+          brand: "Dior",
+          price: 120000,
+          img: "assets/perfume1.jpg",
+          desc: "Bold and masculine with a hint of wilderness.",
+          ingredients: "Bergamot, Sichuan Pepper, Ambroxan, Patchouli",
+        },
+        p10: {
+          id: "p10",
+          name: "YSL Black Opium",
+          brand: "Yves Saint Laurent",
+          price: 95000,
+          img: "assets/perfume2.jpg",
+          desc: "A seductive, sweet, and dark fragrance for night lovers.",
+          ingredients: "Coffee, Vanilla, White Flowers, Cedarwood",
+        },
+        p11: {
+          id: "p11",
+          name: "Chanel Bleu de Chanel",
+          brand: "Chanel",
+          price: 110000,
+          img: "assets/perfume3.jpg",
+          desc: "Modern and fresh scent that embodies confidence.",
+          ingredients: "Lemon, Mint, Sandalwood, Cedar, Jasmine",
+        },
+        p12: {
+          id: "p12",
+          name: "Gucci Bloom",
+          brand: "Gucci",
+          price: 105000,
+          img: "assets/perfume4.jpg",
+          desc: "A floral explosion celebrating femininity and grace.",
+          ingredients: "Jasmine, Tuberose, Rangoon Creeper, Orris Root",
+        },
+        p13: {
+          id: "p13",
+          name: "Creed Aventus",
+          brand: "Creed",
+          price: 180000,
+          img: "assets/perfume5.jpg",
+          desc: "Powerful, bold, and elegant — perfect for leaders.",
+          ingredients: "Pineapple, Birch, Musk, Oakmoss, Blackcurrant",
+        },
+        p14: {
+          id: "p14",
+          name: "Tom Ford Oud Wood",
+          brand: "Tom Ford",
+          price: 150000,
+          img: "assets/perfume6.jpg",
+          desc: "Exotic and smoky blend of rare woods and spices.",
+          ingredients: "Oud, Sandalwood, Tonka Bean, Amber, Vanilla",
+        },
+        p15: {
+          id: "p15",
+          name: "Versace Bright Crystal",
+          brand: "Versace",
+          price: 88000,
+          img: "assets/perfume7.jpg",
+          desc: "A radiant and sensual fragrance for confident women.",
+          ingredients: "Pomegranate, Peony, Lotus Flower, Amber, Musk",
+        },
+        p16: {
+          id: "p16",
+          name: "Burberry Her",
+          brand: "Burberry",
+          price: 100000,
+          img: "assets/perfume8.jpg",
+          desc: "Fruity romantic scent.",
+          ingredients: "Raspberry, Black Currant, Musk, Amber",
+        },
+        p17: {
+          id: "p17",
+          name: "Armani Code",
+          brand: "Giorgio Armani",
+          price: 97000,
+          img: "assets/perfume9.jpg",
+          desc: "Mysterious and spicy — ideal for evening wear.",
+          ingredients: "Tonka Bean, Olive Blossom, Guaiac Wood, Leather",
+        },
+        p18: {
+          id: "p18",
+          name: "Marc Jacobs Daisy",
+          brand: "Marc Jacobs",
+          price: 92000,
+          img: "assets/perfume10.jpg",
+          desc: "Light, playful, and fresh — a youthful floral essence.",
+          ingredients: "Wild Strawberry, Violet Leaves, Jasmine, White Woods",
+        },
+        p19: {
+          id: "p19",
+          name: "Jo Malone Peony & Blush Suede",
+          brand: "Jo Malone",
+          price: 115000,
+          img: "assets/perfume11.jpg",
+          desc: "Soft, feminine, and luxurious — a modern floral touch.",
+          ingredients: "Peony, Red Apple, Suede, Jasmine, Rose",
+        },
+        p20: {
+          id: "p20",
+          name: "Le Labo Santal 33",
+          brand: "Le Labo",
+          price: 175000,
+          img: "assets/perfume12.jpg",
+          desc: "Woody, smoky, and deeply memorable fragrance.",
+          ingredients: "Cardamom, Iris, Violet, Ambrox, Sandalwood, Leather",
+        },
+        p21: {
+          id: "p21",
+          name: "Maison Francis Kurkdjian Baccarat Rouge 540",
+          brand: "MFK",
+          price: 230000,
+          img: "assets/perfume13.jpg",
+          desc: "An unforgettable amber floral blend that radiates elegance.",
+          ingredients: "Amberwood, Jasmine, Saffron, Cedar, Fir Resin",
+        },
+        p22: {
+          id: "p22",
+          name: "Valentino Donna Born In Roma",
+          brand: "Valentino",
+          price: 99000,
+          img: "assets/perfume14.jpg",
+          desc: "Modern, edgy, and romantic — the essence of confidence.",
+          ingredients: "Blackcurrant, Jasmine, Bourbon Vanilla, Musk",
+        },
+        p23: {
+          id: "p23",
+          name: "Byredo Gypsy Water",
+          brand: "Byredo",
+          price: 130000,
+          img: "assets/perfume15.jpg",
+          desc: "Earthy and free-spirited with notes of the forest air.",
+          ingredients:
+            "Bergamot, Juniper Berries, Incense, Vanilla, Sandalwood",
+        },
+      };
+
+      let readCart = () => {
+        try {
+          return JSON.parse(localStorage.getItem(CART_KEY)) || {};
+        } catch (e) {
+          return {};
+        }
+      };
+      let writeCart = (cart) =>
+        localStorage.setItem(CART_KEY, JSON.stringify(cart));
+      let format = (n) => "₦" + n.toLocaleString();
+
+      let content = document.getElementById("contentArea");
+
+      let render = () => {
+        const cart = readCart();
+        const ids = Object.keys(cart);
+        if (ids.length === 0) {
+          content.innerHTML = `<div class="empty"><h3>Your cart is empty</h3><p>Add items from the shop to begin</p><p style="margin-top:12px"><button class="btn-primary" onclick="location.href='perfume.html'">Shop now</button></p></div>`;
+          return;
+        }
+
+        let left = document.createElement("div");
+        left.className = "cart-list";
+        let right = document.createElement("div");
+        right.className = "summary";
+
+        // left: items
+        ids.forEach((id) => {
+          let p = products[id];
+          if (!p) return;
+          let item = document.createElement("div");
+          item.className = "cart-item";
+          item.innerHTML = `
+            <img src="${p.img}" alt="${
+            p.name
+          }" onerror="this.style.opacity='.6'">
+            <div style="flex:1">
+              <div class="item-info">
+                <h4>${p.name}</h4>
+                <p>${p.brand} • ${format(p.price)}</p>
+                <div class="qty">
+                  <button class="dec" data-id="${id}">−</button>
+                  <div style="min-width:36px;text-align:center">${
+                    cart[id].qty
+                  }</div>
+                  <button class="inc" data-id="${id}">+</button>
+                  <button class="remove" data-id="${id}">Remove</button>
+                </div>
+              </div>
+            </div>
+            <div style="min-width:120px;text-align:right"><strong>${format(
+              p.price * cart[id].qty
+            )}</strong></div>
+          `;
+          left.appendChild(item);
+        });
+
+        // right: summary & checkout
+        let subtotal = ids.reduce(
+          (s, i) => s + products[i].price * cart[i].qty,
+          0
+        );
+        let shipping = subtotal > 0 ? 2500 : 0;
+        let total = subtotal + shipping;
+
+        right.innerHTML = `
+          <h3>Order Summary</h3>
+          <div class="row"><div>Subtotal</div><div>${format(
+            subtotal
+          )}</div></div>
+          <div class="row"><div>Shipping</div><div>${format(
+            shipping
+          )}</div></div>
+          <div class="row total"><div>Total</div><div>${format(
+            total
+          )}</div></div>
+
+          <div style="margin-top:12px">
+            <h4>Delivery details</h4>
+            <form id="checkoutForm" class="checkout-form">
+              <input id="cname" placeholder="Full name" required />
+              <input id="cphone" placeholder="Phone number" required />
+              <input id="cemail" placeholder="Email" type="email" required />
+              <textarea id="caddr" placeholder="Delivery address" rows="3" required></textarea>
+              <button type="submit" class="btn-primary">Place order</button>
+            </form>
+          </div>
+        `;
+
+        content.innerHTML = "";
+        let wrapper = document.createElement("div");
+        wrapper.className = "grid";
+        wrapper.appendChild(left);
+        wrapper.appendChild(right);
+        content.appendChild(wrapper);
+
+        // attach handlers
+        document.querySelectorAll(".inc").forEach((b) =>
+          b.addEventListener("click", (e) => {
+            let id = e.currentTarget.dataset.id;
+            let c = readCart();
+            c[id].qty++;
+            writeCart(c);
+            render();
+          })
+        );
+        document.querySelectorAll(".dec").forEach((b) =>
+          b.addEventListener("click", (e) => {
+            let id = e.currentTarget.dataset.id;
+            let c = readCart();
+            if (c[id].qty > 1) c[id].qty--;
+            else delete c[id];
+            writeCart(c);
+            render();
+          })
+        );
+        document.querySelectorAll(".remove").forEach((b) =>
+          b.addEventListener("click", (e) => {
+            let id = e.currentTarget.dataset.id;
+            let c = readCart();
+            delete c[id];
+            writeCart(c);
+            render();
+          })
+        );
+
+        document
+          .getElementById("checkoutForm")
+          .addEventListener("submit", (ev) => {
+            ev.preventDefault();
+            // basic validation
+            const order = {
+              name: document.getElementById("cname").value.trim(),
+              phone: document.getElementById("cphone").value.trim(),
+              email: document.getElementById("cemail").value.trim(),
+              address: document.getElementById("caddr").value.trim(),
+              items: readCart(),
+              subtotal,
+              shipping,
+              total,
+              createdAt: new Date().toISOString(),
+            };
+            // In a real app, send `order` to your backend / firebase / payment gateway
+            console.log("Order placed:", order);
+            // clear cart and show success
+            localStorage.removeItem(CART_KEY);
+            content.innerHTML = `<div style="background:#fff;padding:28px;border-radius:12px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.06)"><h3>Thank you! 🎉</h3><p>Your order has been placed. We will contact you shortly for confirmation.</p><p style="margin-top:14px"><button class="btn-primary" onclick="location.href='index.html'">Return to shop</button></p></div>`;
+          });
+      };
+
+      // first render
+      render();
+    </script>
+  </body>
+</html>

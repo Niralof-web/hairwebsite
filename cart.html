@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Scentora — Cart</title>
+    <style>
+      :root {
+        --accent: #d4a373;
+        --dark: #111827;
+        --bg: #fffaf7;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: var(--bg);
+        color: var(--dark);
+        min-height: 100vh;
+        display: block;
+        flex-direction: column;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 34px;
+        background: #fff;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+        position: sticky;
+        top: 0;
+        z-index: 80;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .brand img {
+        height: 38px;
+        width: 38px;
+        border-radius: 6px;
+      }
+      .brand .title {
+        font-weight: 700;
+      }
+      .cart-wrap {
+        max-width: 1120px;
+        margin: 24px auto;
+        padding: 0 20px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 28px;
+      }
+      @media (max-width: 920px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .cart-list {
+        background: #fff;
+        padding: 18px;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+      }
+      .cart-item {
+        display: flex;
+        gap: 18px;
+        padding: 12px 10px;
+        border-bottom: 1px solid #f0f0f0;
+        align-items: center;
+      }
+      .cart-item:last-child {
+        border-bottom: 0;
+      }
+      .cart-item img {
+        width: 88px;
+        height: 88px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+      .item-info h4 {
+        margin: 0 0 6px;
+        font-size: 16px;
+      }
+      .item-info p {
+        margin: 0;
+        color: #777;
+        font-size: 13px;
+      }
+      .qty {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        margin-top: 8px;
+      }
+      .qty button {
+        padding: 6px 10px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        background: #fff;
+        cursor: pointer;
+      }
+      .remove {
+        background: transparent;
+        border: 0;
+        color: #c33;
+        cursor: pointer;
+        margin-left: 8px;
+      }
+      .summary {
+        background: #fff;
+        padding: 18px;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+      }
+      .summary h3 {
+        margin-top: 0;
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px dashed #eee;
+      }
+      .total {
+        font-weight: 900;
+        font-size: 18px;
+      }
+      .checkout-form {
+        margin-top: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .checkout-form input,
+      .checkout-form textarea {
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+      }
+      .btn-primary {
+        background: var(--dark);
+        color: #fff;
+        border: 0;
+        padding: 10px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .empty {
+        background: #fff;
+        padding: 28px;
+        border-radius: 12px;
+        text-align: center;
+      }
+
+      /* footer */
+      .footer {
+        background-color: #000;
+        color: #ccc;
+        padding: 60px 80px 20px;
+
+        position: static; /* or remove the position line entirely */
+        bottom: auto;
+        width: 100%;
+        /* background: #111; */
+        color: white;
+        text-align: center;
+        /* padding: 16px; */
+        margin-top: 40px;
+      }
+
+      .footer-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 40px;
+        border-bottom: 1px solid #222;
+        padding-bottom: 40px;
+      }
+
+      .footer-column h3 {
+        color: #f0e6d2;
+        font-size: 14px;
+        letter-spacing: 1px;
+        margin-bottom: 15px;
+      }
+
+      .footer-column p {
+        line-height: 1.6;
+        font-size: 13px;
+      }
+
+      .footer-column ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .footer-column ul li {
+        margin-bottom: 8px;
+      }
+
+      .footer-column ul li a {
+        color: #ccc;
+        text-decoration: none;
+        font-size: 13px;
+        transition: color 0.3s;
+      }
+
+      .footer-column ul li a:hover {
+        color: #d4a373;
+      }
+
+      /* Newsletter */
+      .newsletter {
+        display: flex;
+        background: #1a1a1a;
+        border-radius: 6px;
+        overflow: hidden;
+        margin: 15px 0;
+      }
+
+      .newsletter input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        color: #fff;
+        padding: 10px;
+        outline: none;
+        font-size: 13px;
+      }
+
+      .newsletter button {
+        background: #444;
+        color: #fff;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+      }
+
+      /* Socials */
+      .social-icons {
+        display: flex;
+        gap: 12px;
+        font-size: 18px;
+        margin-top: 10px;
+      }
+
+      .social-icons i:hover {
+        color: #d4a373;
+      }
+
+      /* Instagram grid */
+      .insta-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+
+      .insta-grid img {
+        width: 100%;
+        border-radius: 6px;
+        transition: transform 0.3s;
+      }
+
+      .insta-grid img:hover {
+        transform: scale(1.05);
+      }
+
+      /* Bottom footer */
+      .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 20px;
+        border-top: 1px solid #222;
+        font-size: 13px;
+      }
+
+      .store-links img {
+        width: 120px;
+        margin-left: 10px;
+      }
+
+      .payment-section {
+        text-align: center;
+        border-top: 1px solid #222;
+        padding-top: 25px;
+        margin-top: 20px;
+      }
+
+      .payment-section p {
+        font-size: 13px;
+        color: #aaa;
+        margin: 10px 0;
+      }
+
+      .partners {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .partners img {
+        height: 25px;
+        opacity: 0.8;
+        transition: opacity 0.3s;
+      }
+
+      .partners img:hover {
+        opacity: 1;
+      }
+
+      /* small modal toast */
+      .toast {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        background: #0b0;
+        padding: 10px 16px;
+        color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 0.18s, transform 0.18s;
+        z-index: 999;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      /* @media (max-width: 600px) {
+        .search input {
+          width: 100px;
+        }
+        .hero {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .card .media {
+          height: 200px;
+        }
+      } */
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <img src="Picture1.png" alt="logo" />
+        <div class="title">sarissignature</div>
+      </div>
+      <div>
+        <button
+          onclick="location.href='perfume.html'"
+          style="
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 0;
+            background: #eee;
+            cursor: pointer;
+          "
+        >
+          Continue shopping
+        </button>
+      </div>
+    </header>
+
+    <div class="cart-wrap">
+      <div id="contentArea"></div>
+    </div>
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-column about">
+          <h3>ABOUT US</h3>
+          <p>
+            sarissignature is owned by Ajaj Services Ltd is an online hair shop
+            in Nigeria designed to awaken your senses with our large collection
+            of authentic extraordinary hair product, fragrances, scents, , best
+            online hair deals and gift sets.
+          </p>
+
+          <h3>SUBSCRIBE TO OUR NEWSLETTER</h3>
+          <div class="newsletter">
+            <input type="email" placeholder="Enter your email address" />
+            <button title="Subscribe"><i class="fa fa-arrow-right"></i></button>
+          </div>
+
+          <h3>CONNECT</h3>
+          <div class="social-icons">
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-whatsapp"></i>
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-tiktok"></i>
+            <i class="fa-brands fa-x-twitter"></i>
+          </div>
+        </div>
+
+        <div class="footer-column">
+          <h3>MY PROFILE</h3>
+          <ul>
+            <li><a href="#">My Account</a></li>
+            <li><a href="#">Order History</a></li>
+            <li><a href="#">My Cart</a></li>
+            <li><a href="#">Advanced Search</a></li>
+            <li><a href="#">Checkout</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>INFORMATION</h3>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Delivery Information</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Fragrances Facts</a></li>
+            <li><a href="#">Return Policy</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column instagram">
+          <h3>INSTAGRAM</h3>
+          <div class="insta-grid">
+            <img src="assets/images/p1.jpg" alt="" />
+            <img src="assets/images/p2.jpg" alt="" />
+            <img src="assets/images/p3.jpg" alt="" />
+            <img src="assets/images/p4.jpg" alt="" />
+            <img src="assets/images/p5.jpg" alt="" />
+            <img src="assets/images/p6.jpg" alt="" />
+            <img src="assets/images/p7.jpg" alt="" />
+            <img src="assets/images/p8.jpg" alt="" />
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2025 Fragrances.com.ng. All Rights Reserved.</p>
+        <div class="store-links">
+          <img src="assets/images/googleplay.png" alt="Google Play" />
+          <img src="assets/images/appstore.png" alt="App Store" />
+        </div>
+      </div>
+
+      <div class="payment-section">
+        <p>Payment Partners</p>
+        <div class="partners">
+          <img src="assets/images/interswitch.png" alt="" />
+          <img src="assets/images/verve.png" alt="" />
+          <img src="assets/images/mastercard.png" alt="" />
+          <img src="assets/images/visa.png" alt="" />
+          <img src="assets/images/paypal.png" alt="" />
+        </div>
+        <p>Delivery Partners</p>
+        <div class="partners">
+          <img src="assets/images/dhl.png" alt="" />
+          <img src="assets/images/ups.png" alt="" />
+          <img src="assets/images/tranex.png" alt="" />
+          <img src="assets/images/gig.png" alt="" />
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const CART_KEY = "scentora_cart_v1";
+      // identical product array to index.html (keeps data consistent)
+      let products = [
+        {
+          id: "h1",
+          name: "Shea Moisture Curl Enhancing Smoothie",
+          brand: "Shea Moisture",
+          price: 8500,
+          img: "sheamoisture.png",
+          desc: "Defines curls, reduces frizz, and adds shine for thick curly hair.",
+          ingredients: "Shea Butter, Coconut Oil, Neem Oil, Silk Protein",
+        },
+        {
+          id: "h2",
+          name: "Cantu Leave-In Conditioning Repair Cream",
+          brand: "Cantu",
+          price: 7500,
+          img: "cantu.png",
+          desc: "Deeply moisturizes and repairs dry, damaged, or coarse hair.",
+          ingredients: "Shea Butter, Argan Oil, Jojoba Oil, Honey",
+        },
+        {
+          id: "h3",
+          name: "Mielle Rosemary Mint Scalp & Hair Strengthening Oil",
+          brand: "Mielle Organics",
+          price: 12000,
+          img: "mielle.png",
+          desc: "Stimulates hair growth and strengthens weak, brittle strands.",
+          ingredients: "Rosemary Oil, Castor Oil, Biotin, Peppermint Oil",
+        },
+        {
+          id: "h4",
+          name: "ORS Olive Oil Moisturizing Hair Lotion",
+          brand: "ors",
+          price: 6800,
+          img: "ors.png",
+          desc: "Hydrates and adds shine while protecting against heat damage.",
+          ingredients: "Olive Oil, Coconut Oil, Vitamin E, Aloe Vera",
+        },
+        {
+          id: "h5",
+          name: "Tresemme Keratin Smooth Shampoo",
+          brand: "tresemme",
+          price: 9500,
+          img: "tresemme.png",
+          desc: "Cleanses and smooths hair for a frizz-free, silky finish.",
+          ingredients: "Keratin, Argan Oil, Panthenol, Vitamin B5",
+        },
+        {
+          id: "h6",
+          name: "Aunt Jackie’s Quench Moisture Intensive Leave-In Conditioner",
+          brand: "Aunt Jackie’s",
+          price: 8200,
+          img: "Autjackie.png",
+          desc: "Softens, hydrates, and detangles dry, brittle natural hair.",
+          ingredients: "Shea Butter, Olive Oil, Marshmallow Root, Honey",
+        },
+        {
+          id: "h7",
+          name: "Motions Active Moisture Plus Conditioner",
+          brand: "Motions",
+          price: 7700,
+          img: "motion.png",
+          desc: "Restores elasticity and adds moisture for relaxed or natural hair.",
+          ingredients: "Coconut Oil, Silk Protein, Avocado Oil, Glycerin",
+        },
+        {
+          id: "h8",
+          name: "Creme of Nature Argan Oil Perfect Edges",
+          brand: "Creme of Nature",
+          price: 5000,
+          img: "creme.png",
+          desc: "Smooths edges and adds shine without flaking or residue.",
+          ingredients: "Argan Oil, Castor Oil, Beeswax, Aloe Extract",
+        },
+        {
+          id: "h9",
+          name: "Eco Styler Olive Oil Styling Gel",
+          brand: "Eco Styler",
+          price: 6000,
+          img: "eco.png",
+          desc: "Provides superior hold and conditioning for all hair types.",
+          ingredients: "Olive Oil, Glycerin, Wheat Protein, Water",
+        },
+        {
+          id: "h10",
+          name: "Head & Shoulders 2-in-1 Shampoo + Conditioner",
+          brand: "Head & Shoulders",
+          price: 8800,
+          img: "head.png",
+          desc: "Fights dandruff and cleanses hair while keeping it soft and fresh.",
+          ingredients: "Zinc Pyrithione, Menthol, Aloe Vera, Peppermint",
+        },
+        {
+          id: "h11",
+          name: "Pantene Pro-V Gold Series Hydrating Butter-Creme",
+          brand: "Pantene",
+          price: 10500,
+          img: "pantene.png",
+          desc: "Nourishes dry hair for soft, manageable curls and coils.",
+          ingredients: "Argan Oil, Pro-Vitamins, Coconut Oil, Glycerin",
+        },
+        {
+          id: "h12",
+          name: "Mizani 25 Miracle Milk Leave-In",
+          brand: "Mizani",
+          price: 13000,
+          img: "mizani.png",
+          desc: "Multi-benefit spray for hydration, detangling, and heat protection.",
+          ingredients: "Coconut Oil, Fennel Seed Extract, Vitamin E",
+        },
+        {
+          id: "h13",
+          name: "Carol’s Daughter Black Vanilla Moisture & Shine Shampoo",
+          brand: "Carol’s Daughter",
+          price: 9500,
+          img: "carols.png",
+          desc: "Hydrates and softens dull, brittle hair for a silky, shiny finish.",
+          ingredients:
+            "Aloe Leaf Juice, Sweet Clover, Rose Extract, Shea Butter",
+        },
+        {
+          id: "h14",
+          name: "Dove Intensive Repair Conditioner",
+          brand: "Dove",
+          price: 7800,
+          img: "dove.png",
+          desc: "Repairs damaged hair fibers and restores smoothness.",
+          ingredients: "Keratin, Arginine, Almond Oil, Glycerin",
+        },
+        {
+          id: "h15",
+          name: "Garnier Fructis Sleek & Shine Serum",
+          brand: "Garnier",
+          price: 7200,
+          img: "eco.png",
+          desc: "Smooths frizz and adds lasting shine even in humid weather.",
+          ingredients: "Argan Oil, Apricot, Vitamin E, Citrus Proteins",
+        },
+        {
+          id: "h16",
+          name: "Dark and Lovely Moisture Plus Oil Moisturizer",
+          brand: "Dark and Lovely",
+          price: 6800,
+          img: "head.png",
+          desc: "Softens and nourishes hair, giving it a healthy, radiant glow.",
+          ingredients: "Shea Butter, Castor Oil, Olive Oil, Coconut Milk",
+        },
+        {
+          id: "h17",
+          name: "TGIN Butter Cream Daily Moisturizer",
+          brand: "TGIN",
+          price: 11000,
+          img: "image.png",
+          desc: "Rich daily cream for soft, manageable, and defined curls.",
+          ingredients: "Shea Butter, Vitamin E, Cocoa Butter, Jojoba Oil",
+        },
+        {
+          id: "h18",
+          name: "As I Am Coconut CoWash Cleansing Conditioner",
+          brand: "As I Am",
+          price: 9800,
+          img: "Autjackie.png",
+          desc: "Gently removes buildup while maintaining natural moisture balance.",
+          ingredients: "Coconut Oil, Tangerine, Castor Oil, Saw Palmetto",
+        },
+        {
+          id: "h19",
+          name: "Olaplex No.3 Hair Perfector",
+          brand: "Olaplex",
+          price: 15000,
+          img: "creme.png",
+          desc: "Repairs damaged bonds for stronger, healthier hair.",
+          ingredients: "Bis-Aminopropyl Diglycol Dimaleate, Water, Glycerin",
+        },
+        {
+          id: "h20",
+          name: "Camille Rose Almond Jai Twisting Butter",
+          brand: "Camille Rose",
+          price: 11500,
+          img: "camille.png",
+          desc: "Perfect for twist-outs and braids, providing softness and definition.",
+          ingredients: "Almond Milk, Honey, Shea Butter, Jojoba Oil",
+        },
+      ];
+
+      let readCart = () => {
+        try {
+          return JSON.parse(localStorage.getItem(CART_KEY)) || {};
+        } catch (e) {
+          return {};
+        }
+      };
+      let writeCart = (cart) =>
+        localStorage.setItem(CART_KEY, JSON.stringify(cart));
+      let format = (n) => "₦" + n.toLocaleString();
+
+      let content = document.getElementById("contentArea");
+
+      let render = () => {
+        const cart = readCart();
+        const ids = Object.keys(cart);
+        if (ids.length === 0) {
+          content.innerHTML = `<div class="empty"><h3>Your cart is empty</h3><p>Add items from the shop to begin</p><p style="margin-top:12px"><button class="btn-primary" onclick="location.href='perfume.html'">Shop now</button></p></div>`;
+          return;
+        }
+
+        let left = document.createElement("div");
+        left.className = "cart-list";
+        let right = document.createElement("div");
+        right.className = "summary";
+
+        // left: items
+        ids.forEach((id) => {
+          let p = products.find((prod) => prod.id === id);
+
+          if (!p) return;
+          let item = document.createElement("div");
+          item.className = "cart-item";
+          item.innerHTML = `
+            <img src="${p.img}" alt="${
+            p.name
+          }" onerror="this.style.opacity='.6'">
+            <div style="flex:1">
+              <div class="item-info">
+                <h4>${p.name}</h4>
+                <p>${p.brand} • ${format(p.price)}</p>
+                <div class="qty">
+                  <button class="dec" data-id="${id}">−</button>
+                  <div style="min-width:36px;text-align:center">${
+                    cart[id].qty
+                  }</div>
+                  <button class="inc" data-id="${id}">+</button>
+                  <button class="remove" data-id="${id}">Remove</button>
+                </div>
+              </div>
+            </div>
+            <div style="min-width:120px;text-align:right"><strong>${format(
+              p.price * cart[id].qty
+            )}</strong></div>
+          `;
+          left.appendChild(item);
+        });
+
+        // right: summary & checkout
+        let subtotal = ids.reduce((s, i) => {
+          const p = products.find((prod) => prod.id === i);
+          return p ? s + p.price * cart[i].qty : s;
+        }, 0);
+
+        let shipping = subtotal > 0 ? 2500 : 0;
+        let total = subtotal + shipping;
+
+        right.innerHTML = `
+          <h3>Order Summary</h3>
+          <div class="row"><div>Subtotal</div><div>${format(
+            subtotal
+          )}</div></div>
+          <div class="row"><div>Shipping</div><div>${format(
+            shipping
+          )}</div></div>
+          <div class="row total"><div>Total</div><div>${format(
+            total
+          )}</div></div>
+
+          <div style="margin-top:12px">
+            <h4>Delivery details</h4>
+            <form id="checkoutForm" class="checkout-form">
+              <input id="cname" placeholder="Full name" required />
+              <input id="cphone" placeholder="Phone number" required />
+              <input id="cemail" placeholder="Email" type="email" required />
+              <textarea id="caddr" placeholder="Delivery address" rows="3" required></textarea>
+              <button type="submit" class="btn-primary">Place order</button>
+            </form>
+          </div>
+        `;
+
+        content.innerHTML = "";
+        let wrapper = document.createElement("div");
+        wrapper.className = "grid";
+        wrapper.appendChild(left);
+        wrapper.appendChild(right);
+        content.appendChild(wrapper);
+
+        // attach handlers
+        document.querySelectorAll(".inc").forEach((b) =>
+          b.addEventListener("click", (e) => {
+            let id = e.currentTarget.dataset.id;
+            let c = readCart();
+            c[id].qty++;
+            writeCart(c);
+            render();
+          })
+        );
+        document.querySelectorAll(".dec").forEach((b) =>
+          b.addEventListener("click", (e) => {
+            let id = e.currentTarget.dataset.id;
+            let c = readCart();
+            if (c[id].qty > 1) c[id].qty--;
+            else delete c[id];
+            writeCart(c);
+            render();
+          })
+        );
+        document.querySelectorAll(".remove").forEach((b) =>
+          b.addEventListener("click", (e) => {
+            let id = e.currentTarget.dataset.id;
+            let c = readCart();
+            delete c[id];
+            writeCart(c);
+            render();
+          })
+        );
+
+        document
+          .getElementById("checkoutForm")
+          .addEventListener("submit", (ev) => {
+            ev.preventDefault();
+            // basic validation
+            const order = {
+              name: document.getElementById("cname").value.trim(),
+              phone: document.getElementById("cphone").value.trim(),
+              email: document.getElementById("cemail").value.trim(),
+              address: document.getElementById("caddr").value.trim(),
+              items: readCart(),
+              subtotal,
+              shipping,
+              total,
+              createdAt: new Date().toISOString(),
+            };
+            // In a real app, send `order` to your backend / firebase / payment gateway
+            console.log("Order placed:", order);
+            // clear cart and show success
+            localStorage.removeItem(CART_KEY);
+            content.innerHTML = `<div style="background:#fff;padding:28px;border-radius:12px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.06)"><h3>Thank you! 🎉</h3><p>Your order has been placed. We will contact you shortly for confirmation.</p><p style="margin-top:14px"><button class="btn-primary" onclick="location.href='perfume.html'">Return to shop</button></p></div>`;
+          });
+      };
+
+      // first render
+      render();
+    </script>
+  </body>
+</html>

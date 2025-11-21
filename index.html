@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scentora | Perfume Store</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script
+      src="https://kit.fontawesome.com/a2d0c0e5c8.js"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      /* ------------------------------
+   GLOBAL STYLES
+------------------------------ */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #fffaf7;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      /* Utility */
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: auto;
+      }
+
+      /* Buttons */
+      button {
+        cursor: pointer;
+      }
+
+      /* ------------------------------
+   HEADER
+------------------------------ */
+      .header {
+        width: 100%;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 50px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #1a1a1a;
+        letter-spacing: 1px;
+      }
+
+      /* Navbar */
+      .navbar {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      /* Dropdown Menu */
+      .dropdown {
+        position: relative;
+      }
+
+      .dropbtn {
+        background: transparent;
+        border: none;
+        font-size: 15px;
+        color: #333;
+        font-weight: 500;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 35px;
+        left: 0;
+        background: #fff;
+        min-width: 150px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        border-radius: 6px;
+        z-index: 999;
+      }
+
+      .dropdown-content a {
+        display: block;
+        padding: 10px 15px;
+        text-decoration: none;
+        color: #333;
+        font-size: 14px;
+      }
+
+      .dropdown-content a:hover {
+        background: #f5f5f5;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      /* Search Bar */
+      .search-bar {
+        display: flex;
+        align-items: center;
+        background: #f3f3f3;
+        border-radius: 20px;
+        padding: 5px 10px;
+      }
+
+      .search-bar input {
+        border: none;
+        background: transparent;
+        padding: 6px;
+        outline: none;
+        font-size: 14px;
+        width: 180px;
+      }
+
+      .search-bar button {
+        background: transparent;
+        border: none;
+        color: #555;
+      }
+
+      /* Header Buttons */
+      .header-buttons {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .login-btn {
+        background: #1a1a1a;
+        color: #fff;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 14px;
+        transition: 0.3s;
+      }
+
+      .login-btn:hover {
+        background: #d4a373;
+      }
+
+      .cart {
+        position: relative;
+        font-size: 22px;
+        color: #333;
+      }
+
+      .cart-count {
+        position: absolute;
+        top: -8px;
+        right: -10px;
+        background: #d4a373;
+        color: #fff;
+        font-size: 12px;
+        border-radius: 50%;
+        padding: 2px 6px;
+      }
+
+      /* ------------------------------
+   HERO SECTION
+------------------------------ */
+      .hero {
+        position: relative;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+      }
+
+      .hero-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+        filter: brightness(0.5);
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        padding: 20px;
+      }
+
+      .btn-shop {
+        background-color: #e0a066;
+        border: none;
+        color: #fff;
+        padding: 12px 28px;
+        border-radius: 30px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .btn-shop:hover {
+        background-color: #d48a44;
+      }
+
+      /* .hero {
+        background: url("../assets/images/banner.jpg") center/cover no-repeat;
+        height: 75vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        text-align: center;
+        position: relative;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 600px;
+      }
+
+      .hero-content h1 {
+        font-size: 2.8rem;
+        margin-bottom: 15px;
+      }
+
+      .hero-content p {
+        font-size: 1.1rem;
+        margin-bottom: 25px;
+      }
+
+      .shop-btn {
+        background: #d4a373;
+        color: #fff;
+        border: none;
+        padding: 12px 25px;
+        font-size: 15px;
+        border-radius: 25px;
+        transition: 0.3s;
+      }
+
+      .shop-btn:hover {
+        background: #b6895b;
+      } */
+
+      /* ------------------------------
+   PRODUCT GRID
+------------------------------ */
+      .products {
+        padding: 80px 60px;
+        background: #fff;
+      }
+
+      .products h2 {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 40px;
+        color: #1a1a1a;
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 30px;
+      }
+
+      .product-card {
+        background: #fffaf0;
+        border-radius: 15px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        padding: 20px;
+        transition: transform 0.3s;
+      }
+
+      .product-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .product-card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 15px;
+      }
+
+      .product-card h3 {
+        font-size: 1rem;
+        color: #333;
+        margin-bottom: 5px;
+      }
+
+      .product-card p {
+        color: #777;
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+
+      .product-card .price {
+        font-weight: bold;
+        color: #d4a373;
+        margin-bottom: 10px;
+      }
+
+      .add-cart-btn {
+        background: #1a1a1a;
+        color: #fff;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 13px;
+        transition: 0.3s;
+      }
+
+      .add-cart-btn:hover {
+        background: #d4a373;
+      }
+
+      /* ------------------------------
+   FOOTER
+------------------------------ */
+      .footer {
+        background-color: #000;
+        color: #ccc;
+        padding: 60px 80px 20px;
+      }
+
+      .footer-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 40px;
+        border-bottom: 1px solid #222;
+        padding-bottom: 40px;
+      }
+
+      .footer-column h3 {
+        color: #f0e6d2;
+        font-size: 14px;
+        letter-spacing: 1px;
+        margin-bottom: 15px;
+      }
+
+      .footer-column p {
+        line-height: 1.6;
+        font-size: 13px;
+      }
+
+      .footer-column ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .footer-column ul li {
+        margin-bottom: 8px;
+      }
+
+      .footer-column ul li a {
+        color: #ccc;
+        text-decoration: none;
+        font-size: 13px;
+        transition: color 0.3s;
+      }
+
+      .footer-column ul li a:hover {
+        color: #d4a373;
+      }
+
+      /* Newsletter */
+      .newsletter {
+        display: flex;
+        background: #1a1a1a;
+        border-radius: 6px;
+        overflow: hidden;
+        margin: 15px 0;
+      }
+
+      .newsletter input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        color: #fff;
+        padding: 10px;
+        outline: none;
+        font-size: 13px;
+      }
+
+      .newsletter button {
+        background: #444;
+        color: #fff;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+      }
+
+      /* Socials */
+      .social-icons {
+        display: flex;
+        gap: 12px;
+        font-size: 18px;
+        margin-top: 10px;
+      }
+
+      .social-icons i:hover {
+        color: #d4a373;
+      }
+
+      /* Instagram grid */
+      .insta-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+
+      .insta-grid img {
+        width: 100%;
+        border-radius: 6px;
+        transition: transform 0.3s;
+      }
+
+      .insta-grid img:hover {
+        transform: scale(1.05);
+      }
+
+      /* Bottom footer */
+      .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 20px;
+        border-top: 1px solid #222;
+        font-size: 13px;
+      }
+
+      .store-links img {
+        width: 120px;
+        margin-left: 10px;
+      }
+
+      .payment-section {
+        text-align: center;
+        border-top: 1px solid #222;
+        padding-top: 25px;
+        margin-top: 20px;
+      }
+
+      .payment-section p {
+        font-size: 13px;
+        color: #aaa;
+        margin: 10px 0;
+      }
+
+      .partners {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .partners img {
+        height: 25px;
+        opacity: 0.8;
+        transition: opacity 0.3s;
+      }
+
+      .partners img:hover {
+        opacity: 1;
+      }
+
+      /* ------------------------------
+   RESPONSIVE
+------------------------------ */
+      @media (max-width: 900px) {
+        .header {
+          flex-direction: column;
+          gap: 10px;
+        }
+        .navbar {
+          flex-direction: column;
+        }
+        .hero-content h1 {
+          font-size: 2rem;
+        }
+        .products {
+          padding: 50px 20px;
+        }
+        .footer {
+          padding: 40px 30px;
+        }
+        .footer-bottom {
+          flex-direction: column;
+          text-align: center;
+          gap: 15px;
+        }
+      }
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 20px;
+      }
+
+      .product-card {
+        position: relative;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.3s;
+      }
+      .product-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .product-card img {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+      }
+
+      .product-card h3 {
+        margin: 10px;
+      }
+
+      .price {
+        color: #111;
+        font-weight: bold;
+        margin: 0 10px 15px;
+      }
+
+      /* Info popup */
+      .info-box {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        padding: 25px;
+        width: 320px;
+        max-width: 90%;
+        z-index: 1000;
+        transition: opacity 0.3s ease;
+      }
+
+      .info-box.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .info-box h2 {
+        margin-bottom: 10px;
+      }
+
+      .info-box p {
+        margin: 5px 0;
+        line-height: 1.4;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 🟦 HEADER -->
+    <header class="header">
+      <div class="logo">Scentora</div>
+
+      <nav class="navbar">
+        <div class="dropdown">
+          <button class="dropbtn">
+            Shop by Category <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="perfume.html">Perfumes</a>
+            <a href="cosmetics.html">Cosmetics</a>
+            <a href="creams.html">Creams</a>
+          </div>
+        </div>
+        <div class="search-bar">
+          <input type="text" placeholder="Search by brand..." />
+          <button title="Search"><i class="fa fa-search"></i></button>
+        </div>
+      </nav>
+
+      <div class="header-buttons">
+        <button class="btn login-btn">Sign In</button>
+        <div class="cart">
+          <i class="fa fa-shopping-cart"></i>
+        </div>
+      </div>
+    </header>
+
+    <!-- 🟧 HERO SECTION -->
+    <section class="hero">
+      <video autoplay muted loop playsinline class="hero-video">
+        <source src=".\resources/video.mp4" type="video/mp4" />
+      </video>
+      <div class="hero-content">
+        <h1>Discover Your Signature Scent</h1>
+        <p>
+          Explore our exclusive collection of luxury perfumes and fragrances.
+        </p>
+        <button id="shopNowBtn" class="btn-shop">Shop Now</button>
+      </div>
+    </section>
+
+    <!-- 🟨 PRODUCT GRID -->
+    <section class="products" id="productSection">
+      <h2>Our Collection</h2>
+      <div class="product-grid" id="productGrid">
+        <div
+          class="product-card"
+          data-name="Chanel No. 5"
+          data-desc="Timeless floral fragrance that defines elegance and sophistication."
+          data-ingredients="Jasmine, Rose, Ylang-Ylang, Sandalwood, Vanilla"
+        >
+          <img src=".\resources/chanel5.png" alt="Chanel No. 5" />
+          <h3>Chanel No. 5</h3>
+          <p>By Chanel</p>
+          <div class="price">₦120,000</div>
+        </div>
+
+        <div
+          class="product-card"
+          data-name="Dior Sauvage"
+          data-desc="Bold and fresh — inspired by open landscapes and freedom."
+          data-ingredients="Bergamot, Pepper, Amberwood, Lavender"
+        >
+          <img src=".\resources/dior.png" alt="Dior Sauvage" />
+          <h3>Dior Sauvage</h3>
+          <p>By Dior</p>
+          <div class="price">₦150,000</div>
+        </div>
+
+        <div
+          class="product-card"
+          data-name="YSL Black Opium"
+          data-desc="Sensual and addictive fragrance with coffee and vanilla notes."
+          data-ingredients="Coffee, Vanilla, White Flowers, Cedarwood"
+        >
+          <img src=".\resources/ysl.png" alt="YSL Black Opium" />
+          <h3>YSL Black Opium</h3>
+          <p>By Yves Saint Laurent</p>
+          <div class="price">₦130,000</div>
+        </div>
+
+        <div
+          class="product-card"
+          data-name="Tom Ford Oud Wood"
+          data-desc="Rich, smoky, and luxurious — a statement of confidence."
+          data-ingredients="Oud, Amber, Vanilla, Cardamom"
+        >
+          <img src=".\resources/oud.png" alt="Tom Ford Oud Wood" />
+          <h3>Tom Ford Oud Wood</h3>
+          <p>By Tom Ford</p>
+          <div class="price">₦180,000</div>
+        </div>
+
+        <div
+          class="product-card"
+          data-name="Versace Eros"
+          data-desc="Vibrant and powerful with fresh mint and tonka bean undertones."
+          data-ingredients="Mint, Green Apple, Tonka Bean, Geranium"
+        >
+          <img src=".\resources/versace.png" alt="Versace Eros" />
+          <h3>Versace Eros</h3>
+          <p>By Versace</p>
+          <div class="price">₦110,000</div>
+        </div>
+
+        <div
+          class="product-card"
+          data-name="Gucci Bloom"
+          data-desc="Floral and modern — designed for the contemporary woman."
+          data-ingredients="Tuberose, Jasmine, Rangoon Creeper"
+        >
+          <img src=".\resources/gucci.png" alt="Gucci Bloom" />
+          <h3>Gucci Bloom</h3>
+          <p>By Gucci</p>
+          <div class="price">₦95,000</div>
+        </div>
+
+        <div
+          class="product-card"
+          data-name="Creed Aventus"
+          data-desc="Iconic and masculine — a blend of pineapple, birch, and musk."
+          data-ingredients="Pineapple, Birch, Musk, Oakmoss"
+        >
+          <img src=".\resources/creed.png" alt="Creed Aventus" />
+          <h3>Creed Aventus</h3>
+          <p>By Creed</p>
+          <div class="price">₦220,000</div>
+        </div>
+
+        <div
+          class="product-card"
+          data-name="Burberry Her"
+          data-desc="Fruity and romantic scent that captures the spirit of London."
+          data-ingredients="Raspberry, Black Currant, Musk, Amber"
+        >
+          <img src=".\resources\burberry.png" alt="Burberry Her" />
+          <h3>Burberry Her</h3>
+          <p>By Burberry</p>
+          <div class="price">₦100,000</div>
+        </div>
+      </div>
+
+      <!-- Popup Box -->
+      <div id="productInfo" class="info-box hidden">
+        <h2 id="infoName"></h2>
+        <p id="infoDesc"></p>
+        <p><strong>Ingredients:</strong> <span id="infoIngredients"></span></p>
+      </div>
+    </section>
+
+    <!-- 🖤 FOOTER -->
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-column about">
+          <h3>ABOUT US</h3>
+          <p>
+            Fragrances.com.ng owned by Prebel Services Ltd is an online perfume
+            shop in Nigeria designed to awaken your senses with our large
+            collection of authentic extraordinary perfumes, fragrances, scents,
+            deodorants, best online perfumes deals and gift sets.
+          </p>
+
+          <h3>SUBSCRIBE TO OUR NEWSLETTER</h3>
+          <div class="newsletter">
+            <input type="email" placeholder="Enter your email address" />
+            <button title="Subscribe"><i class="fa fa-arrow-right"></i></button>
+          </div>
+
+          <h3>CONNECT</h3>
+          <div class="social-icons">
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-whatsapp"></i>
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-tiktok"></i>
+            <i class="fa-brands fa-x-twitter"></i>
+          </div>
+        </div>
+
+        <div class="footer-column">
+          <h3>MY PROFILE</h3>
+          <ul>
+            <li><a href="#">My Account</a></li>
+            <li><a href="#">Order History</a></li>
+            <li><a href="#">My Cart</a></li>
+            <li><a href="#">Advanced Search</a></li>
+            <li><a href="#">Checkout</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>INFORMATION</h3>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Delivery Information</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Fragrances Facts</a></li>
+            <li><a href="#">Return Policy</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column instagram">
+          <h3>INSTAGRAM</h3>
+          <div class="insta-grid">
+            <img src="assets/images/p1.jpg" alt="" />
+            <img src="assets/images/p2.jpg" alt="" />
+            <img src="assets/images/p3.jpg" alt="" />
+            <img src="assets/images/p4.jpg" alt="" />
+            <img src="assets/images/p5.jpg" alt="" />
+            <img src="assets/images/p6.jpg" alt="" />
+            <img src="assets/images/p7.jpg" alt="" />
+            <img src="assets/images/p8.jpg" alt="" />
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2025 Fragrances.com.ng. All Rights Reserved.</p>
+        <div class="store-links">
+          <img src="assets/images/googleplay.png" alt="Google Play" />
+          <img src="assets/images/appstore.png" alt="App Store" />
+        </div>
+      </div>
+
+      <div class="payment-section">
+        <p>Payment Partners</p>
+        <div class="partners">
+          <img src="assets/images/interswitch.png" alt="" />
+          <img src="assets/images/verve.png" alt="" />
+          <img src="assets/images/mastercard.png" alt="" />
+          <img src="assets/images/visa.png" alt="" />
+          <img src="assets/images/paypal.png" alt="" />
+        </div>
+        <p>Delivery Partners</p>
+        <div class="partners">
+          <img src="assets/images/dhl.png" alt="" />
+          <img src="assets/images/ups.png" alt="" />
+          <img src="assets/images/tranex.png" alt="" />
+          <img src="assets/images/gig.png" alt="" />
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+      // Target only the dropdown links
+      const dropdownLinks = document.querySelectorAll(".dropdown-content a");
+
+      dropdownLinks.forEach((link) => {
+        link.addEventListener("click", function (event) {
+          event.preventDefault(); // Stop normal navigation
+          alert("Please sign in first!");
+          window.location.href = "signup.html"; // Redirect to signup page
+        });
+      });
+
+      document
+        .getElementById("shopNowBtn")
+        .addEventListener("click", function () {
+          alert("Please sign in first!");
+          window.location.href = "signup.html";
+        });
+      const cards = document.querySelectorAll(".product-card");
+      const infoBox = document.getElementById("productInfo");
+      const infoName = document.getElementById("infoName");
+      const infoDesc = document.getElementById("infoDesc");
+      const infoIngredients = document.getElementById("infoIngredients");
+
+      cards.forEach((card) => {
+        card.addEventListener("mouseenter", () => {
+          infoName.textContent = card.dataset.name;
+          infoDesc.textContent = card.dataset.desc;
+          infoIngredients.textContent = card.dataset.ingredients;
+          infoBox.classList.remove("hidden");
+        });
+
+        card.addEventListener("mouseleave", () => {
+          infoBox.classList.add("hidden");
+        });
+      });
+
+      // Function to simulate adding to cart
+      function addToCart(product) {
+        // Get current cart items from localStorage (or create empty array)
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        // Add selected product
+        cart.push(product);
+
+        // Save back to localStorage
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        // Redirect to cart.html
+        window.location.href = "cart.html";
+      }
+
+      // Add click listener to all product cards
+      cards.forEach((card) => {
+        card.addEventListener("click", () => {
+          // Show alert first
+          alert("Please sign in before you add to cart!");
+
+          // Create a product object from dataset
+          const product = {
+            name: card.dataset.name,
+            desc: card.dataset.desc,
+            ingredients: card.dataset.ingredients,
+            price: card.querySelector(".price").textContent,
+            img: card.querySelector("img").src,
+          };
+
+          // Add product to cart and redirect
+          addToCart(product);
+        });
+      });
+    </script>
+  </body>
+</html>

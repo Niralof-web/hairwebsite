@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Customers — Scentora</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --accent: #d4a373;
+        --dark: #111827;
+        --muted: #7a7a7a;
+        --bg: #fffaf7;
+      }
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI";
+        background: var(--bg);
+        color: var(--dark);
+      }
+
+      /* HEADER */
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 34px;
+        background: #fff;
+        box-shadow: 0 6px 18px rgba(11, 12, 13, 0.06);
+        position: sticky;
+        top: 0;
+        z-index: 80;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .brand img {
+        height: 42px;
+        width: 42px;
+        border-radius: 6px;
+      }
+      .brand .title {
+        font-weight: 700;
+        font-size: 18px;
+      }
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+      .dropbtn {
+        background: transparent;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .search {
+        display: flex;
+        align-items: center;
+        background: #f2f2f2;
+        padding: 6px 10px;
+        border-radius: 24px;
+        gap: 8px;
+      }
+      .search input {
+        border: 0;
+        background: transparent;
+        outline: none;
+        width: 200px;
+        font-size: 14px;
+      }
+      .btn {
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: 0;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .btn.primary {
+        background: var(--dark);
+        color: #fff;
+      }
+
+      /* CUSTOMER GRID */
+      .customers-section {
+        padding: 60px 34px;
+        text-align: center;
+        max-width: 1200px;
+        margin: auto;
+      }
+      .customers-section h2 {
+        font-size: 28px;
+        margin-bottom: 20px;
+      }
+      .customers-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+      }
+      .customer-card {
+        background: #fff;
+        border-radius: 14px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+        padding: 20px;
+        transition: transform 0.25s, box-shadow 0.25s;
+      }
+      .customer-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+      }
+      .customer-card img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-bottom: 12px;
+      }
+      .customer-card h3 {
+        margin: 6px 0;
+        font-size: 18px;
+        color: var(--dark);
+      }
+      .customer-card p {
+        font-size: 14px;
+        color: var(--muted);
+        margin-bottom: 10px;
+      }
+
+      /* FOOTER */
+      .footer {
+        background-color: #000;
+        color: #ccc;
+        padding: 60px 80px 20px;
+        margin-top: 60px;
+      }
+      .footer-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 40px;
+        border-bottom: 1px solid #222;
+        padding-bottom: 40px;
+      }
+      .footer-column h3 {
+        color: #f0e6d2;
+        font-size: 14px;
+        margin-bottom: 15px;
+      }
+      .footer-column p,
+      .footer-column a {
+        font-size: 13px;
+        color: #ccc;
+        text-decoration: none;
+        line-height: 1.6;
+      }
+      .footer-column a:hover {
+        color: var(--accent);
+      }
+      .footer-bottom {
+        border-top: 1px solid #222;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 20px;
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="topbar">
+      <div class="brand">
+        <img src="Picture1.png" alt="Logo" />
+        <div class="title">sarissignature Hair</div>
+      </div>
+
+      <nav class="nav">
+        <button class="dropbtn" onclick="window.location.href='index.html'">
+          Home
+        </button>
+        <button class="dropbtn" onclick="window.location.href='about.html'">
+          About
+        </button>
+        <button class="dropbtn" onclick="window.location.href='contact.html'">
+          Contact
+        </button>
+      </nav>
+
+      <button class="btn primary" onclick="window.location.href='login.html'">
+        Sign Out
+      </button>
+    </header>
+
+    <!-- CUSTOMERS -->
+    <section class="customers-section">
+      <h2>Our Valued Customers</h2>
+      <p style="color: var(--muted); margin-bottom: 30px">
+        Here are some of the amazing clients we've had the privilege to work
+        with.
+      </p>
+      <div class="customers-grid" id="customersGrid"></div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-column">
+          <h3>ABOUT US</h3>
+          <p>
+            We are passionate about delivering quality fragrances and
+            exceptional customer experiences.
+          </p>
+        </div>
+        <div class="footer-column">
+          <h3>CONTACT</h3>
+          <p>Email: sarissignature2012@gmail.com</p>
+          <p>Phone: +234-666-60002</p>
+        </div>
+        <div class="footer-column">
+          <h3>FOLLOW US</h3>
+          <p>
+            <i class="fa-brands fa-instagram"><link rel="stylesheet" href="http:/www.instagram.com/sarisignature?igsh=NgpqYWVmdzRsM25k"></i>
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-x-twitter"></i>
+            <button><link rel="stylesheet" href="http:/www.instagram.com/sarisignature?igsh=NgpqYWVmdzRsM25k"></button>
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 sarissignature. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      const customers = [
+        {
+          name: "Bloom Cosmetics",
+          desc: "Luxury hairstyle and fragrance brand.",
+          logo: "picture8.png",
+        },
+        {
+          name: "Glamour Nails",
+          desc: " leading hairstyle  retailer.",
+          logo: "picture2.png",
+        },
+        {
+          name: "Urban Style",
+          desc: "Modern hairstyle store for men & women.",
+          logo: "picture7.png",
+        },
+        {
+          name: "Luxe Haven Spa",
+          desc: "Premium wellness and beauty experience.",
+          logo: "picture14.png",
+        },
+        {
+          name: "Zen Home Décor",
+          desc: "Elegance meets simplicity in beauty.",
+          logo: "picture6.png",
+        },
+        {
+          name: "Velvet Touch",
+          desc: "Custom fragrance styling.",
+          logo: "picture11.png",
+        },
+
+         {
+          name: "Velvet Touch",
+          desc: "Custom fragrance design and consulting.",
+          logo: "picture11.png",
+        },
+        {
+          name: "Aroma Bliss",
+          desc: "Handcrafted candles and home fragrances.",
+          logo: "picture11.png",
+        },
+        {
+          name: "Chic Boutique",
+          desc: "Trendy apparel and accessories .",
+          logo: "picture4.png",
+        },
+        {
+          name: "Serene Spa",
+          desc: "Relaxation and rejuvenation services.",
+          logo: "picture13.png",
+        },
+        {
+          name: "Elite Fragrances",
+          desc: "Exclusive collection of designer .",
+          logo: "picture3.png",
+        },
+        {
+          name: "Nature's Essence",
+          desc: "Organic and natural beauty products.",
+          logo: "picture5.png",
+        },
+        {
+          name: "The Scent Lab",
+          desc: "Innovative hair solutions.",
+          logo: "picture10.png",
+        },
+        {
+          name: "Glamour Nails",
+          desc: "Professional nail care and art studio.",
+          logo: "picture12.png",
+        },
+      ];
+
+      const grid = document.getElementById("customersGrid");
+      customers.forEach((c) => {
+        const card = document.createElement("div");
+        card.className = "customer-card";
+        card.innerHTML = `
+        <img src="${c.logo}" alt="${c.name}">
+        <h3>${c.name}</h3>
+        <p>${c.desc}</p>
+      `;
+        grid.appendChild(card);
+      });
+    </script>
+  </body>
+</html>

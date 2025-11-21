@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - ShopEase</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Arial", sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .container {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 100%;
+        max-width: 450px;
+      }
+
+      .logo {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .logo h1 {
+        color: #333;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .logo p {
+        color: #666;
+        margin-top: 5px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: 500;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="password"],
+      input[type="tel"] {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e1e1e1;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      .password-strength {
+        height: 4px;
+        background: #e1e1e1;
+        border-radius: 2px;
+        margin-top: 5px;
+        overflow: hidden;
+      }
+
+      .strength-bar {
+        height: 100%;
+        width: 0%;
+        transition: all 0.3s ease;
+      }
+
+      .weak {
+        background: #ff4757;
+        width: 33%;
+      }
+      .medium {
+        background: #ffa502;
+        width: 66%;
+      }
+      .strong {
+        background: #2ed573;
+        width: 100%;
+      }
+
+      .checkbox-group {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .checkbox-group input {
+        margin-top: 3px;
+      }
+
+      .checkbox-group label {
+        font-size: 14px;
+        color: #666;
+      }
+
+      .checkbox-group a {
+        color: #667eea;
+        text-decoration: none;
+      }
+
+      .checkbox-group a:hover {
+        text-decoration: underline;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn:active {
+        transform: translateY(0);
+      }
+
+      .login-link {
+        text-align: center;
+        margin-top: 25px;
+        color: #666;
+      }
+
+      .login-link a {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .login-link a:hover {
+        text-decoration: underline;
+      }
+
+      .error-message {
+        color: #ff4757;
+        font-size: 14px;
+        margin-top: 5px;
+        display: none;
+      }
+
+      .success-message {
+        color: #2ed573;
+        font-size: 14px;
+        margin-top: 5px;
+        display: none;
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 30px 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo">
+        <h1>ShopEase</h1>
+        <p>Create your account</p>
+      </div>
+
+      <form id="signupForm">
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            placeholder="Enter your full name"
+            required
+          />
+          <div class="error-message" id="nameError">
+            Please enter a valid name
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+          />
+          <div class="error-message" id="emailError">
+            Please enter a valid email address
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            placeholder="Enter your phone number"
+          />
+          <div class="error-message" id="phoneError">
+            Please enter a valid phone number
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Create a password"
+            required
+          />
+          <div class="password-strength">
+            <div class="strength-bar" id="passwordStrength"></div>
+          </div>
+          <div class="error-message" id="passwordError">
+            Password must be at least 8 characters
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="Confirm your password"
+            required
+          />
+          <div class="error-message" id="confirmPasswordError">
+            Passwords do not match
+          </div>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="terms" name="terms" required />
+          <label for="terms">
+            I agree to the <a href="#">Terms of Service</a> and
+            <a href="#">Privacy Policy</a>
+          </label>
+        </div>
+
+        <button type="submit" class="btn">Create Account</button>
+
+        <div class="success-message" id="successMessage">
+          Account created successfully! Redirecting...
+        </div>
+      </form>
+
+      <div class="login-link">
+        Already have an account? <a href="login.html">Sign in</a>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("signupForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          if (validateForm()) {
+            // Simulate form submission
+            showSuccessMessage();
+
+            // In a real application, you would send data to your backend here
+            // Example:
+            // const formData = new FormData(this);
+            // fetch('/api/signup', { method: 'POST', body: formData })
+            //   .then(response => response.json())
+            //   .then(data => { ... })
+          }
+        });
+
+      // Real-time password strength check
+      document
+        .getElementById("password")
+        .addEventListener("input", function () {
+          checkPasswordStrength(this.value);
+        });
+
+      function validateForm() {
+        let isValid = true;
+
+        // Reset error messages
+        document.querySelectorAll(".error-message").forEach((msg) => {
+          msg.style.display = "none";
+        });
+
+        // Validate full name
+        const fullName = document.getElementById("fullName").value.trim();
+        if (fullName.length < 2) {
+          document.getElementById("nameError").style.display = "block";
+          isValid = false;
+        }
+
+        // Validate email
+        const email = document.getElementById("email").value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          document.getElementById("emailError").style.display = "block";
+          isValid = false;
+        }
+
+        // Validate phone (optional)
+        const phone = document.getElementById("phone").value.trim();
+        if (phone && !/^\d{10,15}$/.test(phone)) {
+          document.getElementById("phoneError").style.display = "block";
+          isValid = false;
+        }
+
+        // Validate password
+        const password = document.getElementById("password").value;
+        if (password.length < 8) {
+          document.getElementById("passwordError").style.display = "block";
+          isValid = false;
+        }
+
+        // Validate confirm password
+        const confirmPassword =
+          document.getElementById("confirmPassword").value;
+        if (password !== confirmPassword) {
+          document.getElementById("confirmPasswordError").style.display =
+            "block";
+          isValid = false;
+        }
+
+        // Validate terms
+        if (!document.getElementById("terms").checked) {
+          alert("Please agree to the Terms of Service and Privacy Policy");
+          isValid = false;
+        }
+
+        return isValid;
+      }
+
+      function checkPasswordStrength(password) {
+        const strengthBar = document.getElementById("passwordStrength");
+        let strength = 0;
+
+        if (password.length >= 8) strength++;
+        if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+        if (password.match(/\d/)) strength++;
+        if (password.match(/[^a-zA-Z\d]/)) strength++;
+
+        strengthBar.className = "strength-bar";
+        if (password.length > 0) {
+          if (strength <= 1) {
+            strengthBar.classList.add("weak");
+          } else if (strength <= 3) {
+            strengthBar.classList.add("medium");
+          } else {
+            strengthBar.classList.add("strong");
+          }
+        }
+      }
+
+      function showSuccessMessage() {
+        const successMessage = document.getElementById("successMessage");
+        successMessage.style.display = "block";
+
+        // Simulate redirect
+        setTimeout(() => {
+          alert(
+            "In a real application, you would be redirected to the login page or dashboard"
+          );
+          // window.location.href = 'dashboard.html';
+        }, 2000);
+      }
+
+      // Real-time confirmation password check
+      document
+        .getElementById("confirmPassword")
+        .addEventListener("input", function () {
+          const password = document.getElementById("password").value;
+          const confirmPassword = this.value;
+          const errorElement = document.getElementById("confirmPasswordError");
+
+          if (confirmPassword && password !== confirmPassword) {
+            errorElement.style.display = "block";
+          } else {
+            errorElement.style.display = "none";
+          }
+        });
+    </script>
+  </body>
+</html>
